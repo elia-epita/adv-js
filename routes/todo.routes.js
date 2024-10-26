@@ -5,7 +5,7 @@ const todoController = require("../controllers/todo.controller");
 router.get("/", todoController.getTodos);
 router.post("/add", todoController.addTodo);
 router.get("/:index", todoController.getTodoAtIndex);
-// router.put("/:index");
+router.put("/:index", todoController.updateTodaAtIndex);
 // router.delete("/:index");
 
 module.exports = router;
