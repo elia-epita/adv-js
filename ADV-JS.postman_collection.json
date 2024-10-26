@@ -127,7 +127,33 @@
 					"variable": [
 						{
 							"key": "index",
-							"value": "qs"
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Todo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/todos/:index",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"todos",
+						":index"
+					],
+					"variable": [
+						{
+							"key": "index",
+							"value": "0"
 						}
 					]
 				}

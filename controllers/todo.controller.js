@@ -43,12 +43,25 @@ const updateTodaAtIndex = (req, res) => {
     res.status(200).json(todos);
   }
 };
-// edit a specific todo item
-// delete a specific todo item
+
+const deleteTodo = (req, res) => {
+  const { index } = req.params;
+  const position = parseInt(index);
+
+  if (todos.length === 0) {
+    res.status(400).json({ error: "cannot remove from empty list" });
+  } else if (isNaN(position) || position < 0 || position >= todos.length) {
+    res.status(400).json({ error: "index should be a correct number" });
+  } else {
+    todos.splice(index, 1);
+    res.status(200).json(todos);
+  }
+};
 
 module.exports = {
   getTodos,
   addTodo,
   getTodoAtIndex,
   updateTodaAtIndex,
+  deleteTodo,
 };

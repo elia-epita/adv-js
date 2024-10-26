@@ -6,7 +6,7 @@ router.get("/", todoController.getTodos);
 router.post("/add", todoController.addTodo);
 router.get("/:index", todoController.getTodoAtIndex);
 router.put("/:index", todoController.updateTodaAtIndex);
-// router.delete("/:index");
+router.delete("/:index", todoController.deleteTodo);
 
 module.exports = router;
 // get all todos
