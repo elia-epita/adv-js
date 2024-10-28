@@ -9,6 +9,8 @@ const helmet = require("helmet");
 
 // Routers
 const todoRouter = require("./routes/todo.routes");
+const messageRouter = require("./routes/message.routes");
+const userRouter = require("./routes/user.routes");
 
 try {
   mongoose.connect("mongodb://localhost:27017/epita");
@@ -21,6 +23,8 @@ app.use(helmet());
 app.use(express.json());
 
 app.use("/todos", todoRouter);
+app.use("/messages", messageRouter);
+app.use("/users", userRouter);
 
 app.get("/", (req, res) => {
   console.log("Here");
