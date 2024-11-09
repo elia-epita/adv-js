@@ -17,6 +17,7 @@ const validator = require("../middleware/validator");
 const todoRouter = require("../routes/todo.routes");
 const messageRouter = require("../routes/message.routes");
 const userRouter = require("../routes/user.routes");
+const movieRouter = require("../routes/movie.routes");
 
 // mongoDB connection
 try {
@@ -50,6 +51,7 @@ const registerCoreMiddleware = () => {
     app.use("/todos", todoRouter);
     app.use("/messages", verifyToken, messageRouter);
     app.use("/users", userRouter);
+    app.use("/movies", movieRouter);
 
     // 404 handling
     app.use(notFound);
