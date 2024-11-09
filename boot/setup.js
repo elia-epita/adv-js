@@ -11,6 +11,7 @@ const session = require("express-session");
 const verifyToken = require("../middleware/authentication");
 const logger = require("../middleware/winston");
 const notFound = require("../middleware/notFound");
+const validator = require("../middleware/validator");
 
 // Routers
 const todoRouter = require("../routes/todo.routes");
@@ -43,6 +44,8 @@ const registerCoreMiddleware = () => {
     app.use(cors());
     app.use(helmet());
     app.use(express.json());
+
+    app.use(validator)
 
     app.use("/todos", todoRouter);
     app.use("/messages", verifyToken, messageRouter);
