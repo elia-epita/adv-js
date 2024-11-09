@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
 const session = require("express-session");
+const verifyToken = require("./middleware/authentication");
 
 // Routers
 const todoRouter = require("./routes/todo.routes");
@@ -37,7 +38,7 @@ app.use(helmet());
 app.use(express.json());
 
 app.use("/todos", todoRouter);
-app.use("/messages", messageRouter);
+app.use("/messages", verifyToken, messageRouter);
 app.use("/users", userRouter);
 
 app.get("/", (req, res) => {
