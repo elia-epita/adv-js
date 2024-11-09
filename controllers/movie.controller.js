@@ -74,6 +74,33 @@ const getMovies = async (req, res) => {
         .json({ error: "Exception occured while fetching movies" });
     } else {
       // group movies by type
+
+      /**
+       * iteration 1:
+       *
+       * ACC value: {}
+       * Type value: Top Rated
+       * --> if key does not exist add key 'Top Rated' to ACC
+       * --> push movie to ACC['Top Rated']
+
+       * ACC value: {
+       * "Top Rated": [{movie1}]
+       * }
+
+       * iteration 2:
+       * ACC value: {
+       * "Top Rated": [{movie1}]
+       * }
+       * Type value: Romance
+       * --> if key does not exist add key 'Romance' to ACC
+       * --> push movie to ACC['Romance']
+
+       * ACC value: {
+       * "Top Rated": [{movie1}],
+       * "Romance": [{movie2}]
+       * }
+       *
+       */
       const groupedMovies = rows.rows.reduce((acc, movie) => {
         console.log("ACC :: ", acc);
         const { type } = movie;
