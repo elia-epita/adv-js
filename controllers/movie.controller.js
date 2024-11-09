@@ -74,32 +74,17 @@ const getMovies = async (req, res) => {
         .json({ error: "Exception occured while fetching movies" });
     } else {
       // group movies by type
-      /**
-       *
-       * {
-       *    "Comedy": [
-       *        {
-       *            movie_id: 1
-       *
-       *        },
-       *        {
-       *            movie_id: 2
-       *
-       *        }
-       *    ],
-       *
-       *    "Horror": [
-       *        {
-       *            movie_id: 10
-       *
-       *        },
-       *        {
-       *            movie_id: 20
-       *
-       *        }
-       *    ]
-       * }
-       */
+      const groupedMovies = rows.rows.reduce((acc, movie) => {
+        console.log("ACC :: ", acc);
+        const { type } = movie;
+        if (!acc[type]) {
+          console.log("TYPE :: ", type);
+          acc[type] = [];
+        }
+        acc[type].push(movie);
+        return acc;
+      }, {});
+      res.status(success).json({ movies: groupedMovies });
     }
   });
 };
@@ -107,4 +92,5 @@ const getMovies = async (req, res) => {
 module.exports = {
   addMovie,
   getMovieById,
+  getMovies,
 };
