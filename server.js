@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const PORT = 8080;
@@ -6,6 +7,7 @@ const mongoose = require("mongoose");
 // Custom middleware
 const cors = require("cors");
 const helmet = require("helmet");
+const session = require("express-session");
 
 // Routers
 const todoRouter = require("./routes/todo.routes");
@@ -17,6 +19,18 @@ try {
 } catch (error) {
   console.log("Error connecting to MongoDB", error);
 }
+
+app.use(
+  session({
+    secret: "1234",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+    },
+  })
+);
 
 app.use(cors());
 app.use(helmet());
