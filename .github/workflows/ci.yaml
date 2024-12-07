@@ -25,3 +25,12 @@ jobs:
       - run: |
           touch .env
           echo "${{ secrets.PROD }}" > .env
+  test:
+    runs-on: self-hosted
+    steps:
+      - run: npm run test
+
+  deploy:
+    runs-on: self-hosted
+    steps:
+     - run: pm2 restart api
