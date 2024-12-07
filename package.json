@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha tests/",
     "start:dev": "nodemon server.js"
   },
   "keywords": [],
@@ -26,6 +26,8 @@
     "winston": "^3.16.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0"
   }
 }
