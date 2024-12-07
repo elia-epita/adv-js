@@ -20,12 +20,12 @@ const userRouter = require("../routes/user.routes");
 const movieRouter = require("../routes/movie.routes");
 
 // mongoDB connection
-try {
-  mongoose.connect("mongodb://localhost:27017/epita");
-  logger.info("Connected to MongoDB");
-} catch (error) {
-  logger.error("Error connecting to MongoDB", error);
-}
+// try {
+//   mongoose.connect("mongodb://localhost:27017/epita");
+//   logger.info("Connected to MongoDB");
+// } catch (error) {
+//   logger.error("Error connecting to MongoDB", error);
+// }
 
 const registerCoreMiddleware = () => {
   try {

@@ -35,6 +35,6 @@ function startConnection() {
   });
 }
 
-startConnection();
+// startConnection();
 
 module.exports = db_connection;
