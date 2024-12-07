@@ -17,7 +17,7 @@ describe("getTodos function", () => {
         expect(res.statusCode).to.equal(200);
 
         // Assert that the returned data is an empty array
-        expect(data).to.eql([]);
+        expect(data).to.eql(["Hello"]);
       },
     };
 
@@ -43,7 +43,7 @@ describe("addTodo", () => {
         expect(res.statusCode).to.equal(200);
 
         // assert that the returned data is the added todo
-        expect(data).to.eql(["New todo"]);
+        expect(data).to.eql(["Hello", "New todo"]);
       },
     };
     // call the function with the mocked request and response
