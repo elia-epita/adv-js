@@ -1,4 +1,4 @@
-const todos = [];
+const todos = ['Hello'];
 
 // get all todos
 const getTodos = (req, res) => {

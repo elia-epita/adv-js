@@ -29,8 +29,12 @@ jobs:
     runs-on: self-hosted
     steps:
       - run: npm run test
+    needs: build
 
   deploy:
     runs-on: self-hosted
     steps:
      - run: pm2 restart api
+    needs:
+      - build
+      - test
