@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -22,19 +22,10 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
-      - run: |
-          touch .env
-          echo "${{ secrets.PROD }}" > .env
+
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - run: npm run test
     needs: build
 
-  deploy:
-    runs-on: self-hosted
-    steps:
-     - run: pm2 restart api
-    needs:
-      - build
-      - test

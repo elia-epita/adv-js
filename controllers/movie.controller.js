@@ -1,6 +1,7 @@
 const pool = require("../boot/database/db_connect");
 const { queryError, success, badRequest } = require("../constants/statusCodes");
 const logger = require("../middleware/winston");
+const uploadFile = require("../upload/uploadFile");
 
 const addMovie = async (req, res) => {
   const { title, release_date, author } = req.body;
@@ -65,17 +66,41 @@ const getMovieById = async (req, res) => {
   );
 };
 
-const getMovies = async (req, res) => {
-  pool.query(`SELECT * FROM movies GROUP BY movie_id, type;`, (err, rows) => {
-    if (err) {
-      logger.error(err.stack);
-      res
-        .status(queryError)
-        .json({ error: "Exception occured while fetching movies" });
-    } else {
-      // group movies by type
+const getMovieByCategory = async (req, res) => {
+  const { category } = req.query;
 
-      /**
+  pool.query(
+    `SELECT * FROM movies WHERE type = $1`,
+    [category],
+    (err, rows) => {
+      if (err) {
+        logger.error(err.stack);
+        res
+          .status(queryError)
+          .json({ error: "Exception occured while fetching movie" });
+      } else {
+        logger.info("ROWS", rows.rows);
+        res.status(success).json({ movies: rows.rows });
+      }
+    }
+  );
+};
+
+const getMovies = async (req, res) => {
+  const { category } = req.query;
+  if (category) {
+    getMovieByCategory(req, res);
+  } else {
+    pool.query(`SELECT * FROM movies GROUP BY movie_id, type;`, (err, rows) => {
+      if (err) {
+        logger.error(err.stack);
+        res
+          .status(queryError)
+          .json({ error: "Exception occured while fetching movies" });
+      } else {
+        // group movies by type
+
+        /**
        * iteration 1:
        *
        * ACC value: {}
@@ -101,23 +126,62 @@ const getMovies = async (req, res) => {
        * }
        *
        */
-      const groupedMovies = rows.rows.reduce((acc, movie) => {
-        console.log("ACC :: ", acc);
-        const { type } = movie;
-        if (!acc[type]) {
-          console.log("TYPE :: ", type);
-          acc[type] = [];
+        const groupedMovies = rows.rows.reduce((acc, movie) => {
+          console.log("ACC :: ", acc);
+          const { type } = movie;
+          if (!acc[type]) {
+            console.log("TYPE :: ", type);
+            acc[type] = [];
+          }
+          acc[type].push(movie);
+          return acc;
+        }, {});
+        res.status(success).json({ movies: groupedMovies });
+      }
+    });
+  }
+};
+
+const uploadImage = async (req, res) => {
+  console.log("TEST");
+  const { id } = req.params;
+
+  let movie_id = parseInt(id);
+  if (movie_id === NaN) {
+    return res.status(badRequest).json({ message: "id must be a number" });
+  }
+  let sql = "UPDATE movies SET poster = $1 WHERE movie_id = $2;";
+
+  if (req.file) {
+    let { mimetype } = req.file;
+
+    if (
+      mimetype !== "image/png" &&
+      mimetype !== "image/jpeg" &&
+      mimetype !== "image/jpg"
+    ) {
+      res.status(badRequest).json({ message: "Plase only upload images" });
+    } else {
+      uploadFile(`${"req.user.id"}/`, req, sql, (response) => {
+        if (response.error) {
+          console.log(response.error);
+          res.status(badRequest).json({ error: "Error while uploading image" });
+        } else {
+          res.status(success).json({ response });
         }
-        acc[type].push(movie);
-        return acc;
-      }, {});
-      res.status(success).json({ movies: groupedMovies });
+      });
     }
-  });
+  } else {
+    return res
+      .status(missingParameters)
+      .json({ message: "missing parameters" });
+  }
 };
 
 module.exports = {
   addMovie,
   getMovieById,
   getMovies,
+  uploadImage,
+  getMovieByCategory,
 };

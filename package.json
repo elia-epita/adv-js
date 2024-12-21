@@ -5,13 +5,14 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha tests/",
-    "start:dev": "nodemon server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "app-root-path": "^3.1.0",
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
@@ -22,12 +23,13 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.3",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "pg": "^8.13.1",
     "winston": "^3.16.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7",
     "chai": "^4.3.10",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "nodemon": "^3.1.7"
   }
 }
