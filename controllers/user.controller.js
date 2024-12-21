@@ -65,6 +65,14 @@ const login = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  if (req.sessoin.user) {
+    delete req.session.user;
+  }
+
+  return res.status(204);
+};
+
 const getUser = async (req, res) => {
   try {
     const user = await userModel.findById(req.session.user._id);
@@ -79,4 +87,5 @@ module.exports = {
   register,
   login,
   getUser,
+  logout
 };
